@@ -1,5 +1,5 @@
 # net.akehurst.example.xtext.vertx
-An example of using Xtext on the Web using Vertx as the web server
+An example of Xtext in the Web using Vertx as the web server
 
 
 To Build:
