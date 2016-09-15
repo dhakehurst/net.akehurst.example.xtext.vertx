@@ -5,6 +5,7 @@ target/
 .vertx/
 xtext-gen/
 xtend-gen/
+generated/
 
 .project
 .classpath

@@ -1,0 +1,113 @@
+plugins {
+    id 'java'
+    id 'org.xtext.xtend' version '1.0.12'
+    id 'eclipse'
+    id 'application'
+}
+
+group 'net.akehurst.example'
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+mainClassName = "net.akehurst.example.xtext.vertx.Main"
+
+
+repositories {
+ //   maven {
+ //   	url 'http://services.typefox.io/open-source/jenkins/job/xtext-eclipse/job/master/lastStableBuild/artifact/build/maven-repository/'
+ //   }
+
+    ivy {
+		url 'http://download.eclipse.org'
+		layout 'pattern', {
+			artifact '/[organisation]/drops/[revision]/[module].[ext]'
+		}
+    }
+	mavenCentral()
+    jcenter()
+}
+
+ext {
+	versionVertx = '+'
+	versionXtext = '2.10.0'
+}
+
+configurations {
+	mwe2 {
+		extendsFrom compile
+	}
+}
+
+configurations.all {
+	exclude group: 'asm'
+}
+	
+dependencies {
+
+	mwe2 "org.eclipse.emf:org.eclipse.emf.mwe2.launch:2.8.3"
+	mwe2 "org.eclipse.xtext:org.eclipse.xtext.xtext.generator:${versionXtext}"
+
+	compile "io.vertx:vertx-core:${versionVertx}"
+	compile "io.vertx:vertx-web:${versionVertx}"
+
+	compile 'org.webjars:jquery:3.1.0'
+	compile 'org.webjars:requirejs:2.3.1'
+	
+	compile 'orion:built-codeEdit:R-12.0-201606220105@zip'
+	
+	compile "org.eclipse.xtext:org.eclipse.xtext:${versionXtext}"
+	compile "org.eclipse.xtext:org.eclipse.xtext.xbase:${versionXtext}"
+
+}
+
+sourceSets {
+	main {
+		java.srcDirs = ['src/main/java', 'src/main/xtext-gen']
+		resources.srcDirs = ['src/main/resources', 'src/main/xtext-gen']
+		xtendOutputDir = 'src/main/xtend-gen'
+	}
+	test {
+		java.srcDirs = ['src/test/java', 'src/test/xtext-gen']
+		resources.srcDirs = ['src/test/resources', 'src/test/xtext-gen']
+		xtendOutputDir = 'src/test/xtend-gen'
+	}
+}
+
+jar {
+	from('model') {
+		into('model')
+	}
+	manifest {
+		attributes 'Bundle-SymbolicName': project.name
+	}
+}
+
+task generateXtextLanguage(type: JavaExec) {
+	main = 'org.eclipse.emf.mwe2.launch.runtime.Mwe2Launcher'
+	classpath = configurations.mwe2
+	inputs.file "src/main/java/net/akehurst/example/xtext/vertx/language/GenerateMath.mwe2"
+	inputs.file "src/main/java/net/akehurst/example/xtext/vertx/language/Math.xtext"
+	outputs.dir "src/main/xtext-gen"
+	args += "src/main/java/net/akehurst/example/xtext/vertx/language/GenerateMath.mwe2"
+	args += "-p"
+	args += "rootPath=/${projectDir}/.."
+}
+
+generateXtext.dependsOn(generateXtextLanguage)
+clean.dependsOn(cleanGenerateXtextLanguage)
+eclipse.classpath.plusConfigurations += [configurations.mwe2]
+
+// unzip the orion zip
+task unzip(type: Copy) {
+
+  def zipPath = project.configurations.compile.find {it.name.startsWith("built") }
+  println zipPath
+  def zipFile = file(zipPath)
+  def outputDir = file("${buildDir}/resources/main/orion")
+
+  from zipTree(zipFile)
+  into outputDir
+}
+
+tasks['build'].dependsOn('unzip')

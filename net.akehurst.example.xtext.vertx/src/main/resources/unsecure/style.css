@@ -1,0 +1,17 @@
+
+body > header {
+	display: flex;
+	justify-content: center;
+}
+
+body > main > section {
+	display: flex;
+	justify-content: center;
+}
+
+#editor {
+	width: 500px;
+	height: 500px;
+	
+	border: solid 1px;
+}
