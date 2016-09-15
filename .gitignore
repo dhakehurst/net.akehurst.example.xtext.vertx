@@ -1,0 +1,15 @@
+build/
+bin/
+target/
+.gradle/
+.vertx/
+xtext-gen/
+xtend-gen/
+
+.project
+.classpath
+.settings/
+
+*.class
+*._trace
+*.xtendbin
