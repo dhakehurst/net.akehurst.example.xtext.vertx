@@ -20,6 +20,7 @@ Workflow {
 					enabled = false
 
 				}
+				
 			}
 			code = {
 				encoding = "UTF-8"
@@ -34,8 +35,16 @@ Workflow {
 				generateStub = false
 			}
 			validator = {
+				generateStub = false
 				// composedCheck = "org.eclipse.xtext.validation.NamesAreUniqueValidator"
 			}
+			generator = {
+				generateStub = false
+			}
+			scopeProvider = {
+				generateStub = false
+			}
+			
 		}
 	}
 }
