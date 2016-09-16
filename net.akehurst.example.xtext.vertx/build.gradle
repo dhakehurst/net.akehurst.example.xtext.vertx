@@ -1,3 +1,5 @@
+
+
 plugins {
     id 'java'
     id 'org.xtext.xtend' version '1.0.12'
@@ -14,9 +16,7 @@ mainClassName = "net.akehurst.example.xtext.vertx.Main"
 
 
 repositories {
- //   maven {
- //   	url 'http://services.typefox.io/open-source/jenkins/job/xtext-eclipse/job/master/lastStableBuild/artifact/build/maven-repository/'
- //   }
+	mavenLocal()
 
     ivy {
 		url 'http://download.eclipse.org'
@@ -26,11 +26,33 @@ repositories {
     }
 	mavenCentral()
     jcenter()
+    
+    maven {
+		url 'http://services.typefox.io/open-source/jenkins/job/lsapi/lastSuccessfulBuild/artifact/build/maven-repository/'
+	}
+	maven {
+		url 'http://services.typefox.io/open-source/jenkins/job/xtext-core/job/master/lastStableBuild/artifact/build/maven-repository/'
+	}
+	maven {
+		url 'http://services.typefox.io/open-source/jenkins/job/xtext-extras/job/master/lastStableBuild/artifact/build/maven-repository/'
+	}
+	maven {
+		url 'http://services.typefox.io/open-source/jenkins/job/xtext-lib/job/master/lastStableBuild/artifact/build/maven-repository/'
+	}
+	maven {
+		url 'http://services.typefox.io/open-source/jenkins/job/xtext-web/job/master/lastStableBuild/artifact/build/maven-repository/'
+	}
+	maven {
+		url 'http://services.typefox.io/open-source/jenkins/job/xtext-xtend/job/master/lastStableBuild/artifact/build/maven-repository/'
+	}
+    maven {
+    	url 'http://services.typefox.io/open-source/jenkins/job/xtext-eclipse/job/master/lastStableBuild/artifact/build/maven-repository/'
+    }
 }
 
 ext {
 	versionVertx = '+'
-	versionXtext = '2.10.0'
+	versionXtext = '2.11.0-SNAPSHOT'
 }
 
 configurations {
@@ -45,6 +67,8 @@ configurations.all {
 	
 dependencies {
 
+	compile 'com.google.guava:guava:18.0'
+
 	mwe2 "org.eclipse.emf:org.eclipse.emf.mwe2.launch:2.8.3"
 	mwe2 "org.eclipse.xtext:org.eclipse.xtext.xtext.generator:${versionXtext}"
 
@@ -57,6 +81,8 @@ dependencies {
 	compile 'orion:built-codeEdit:R-12.0-201606220105@zip'
 	
 	compile "org.eclipse.xtext:org.eclipse.xtext:${versionXtext}"
+	compile "org.eclipse.xtext:org.eclipse.xtext.ide:${versionXtext}"
+	compile "org.eclipse.xtext:org.eclipse.xtext.web:${versionXtext}"
 	compile "org.eclipse.xtext:org.eclipse.xtext.xbase:${versionXtext}"
 
 }
