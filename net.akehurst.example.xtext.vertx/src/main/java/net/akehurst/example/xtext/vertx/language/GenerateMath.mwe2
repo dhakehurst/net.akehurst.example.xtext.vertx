@@ -9,7 +9,7 @@ Workflow {
 	
 	component = XtextGenerator {
 		configuration = {
-			project = ProjectConfig {
+			project = StandardProjectConfig {
 				baseName = "net.akehurst.example.xtext.vertx"
 				rootPath = rootPath
 				runtimeTest = {
@@ -18,7 +18,7 @@ Workflow {
 				mavenLayout = true
 				genericIde = {
 					enabled = true
-					
+					name = "net.akehurst.example.xtext.vertx"
 				}
 				
 			}

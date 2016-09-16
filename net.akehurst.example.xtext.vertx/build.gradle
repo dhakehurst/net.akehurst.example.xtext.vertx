@@ -69,6 +69,7 @@ dependencies {
 
 	compile 'com.google.guava:guava:18.0'
 
+	mwe2 files("src/main/java")
 	mwe2 "org.eclipse.emf:org.eclipse.emf.mwe2.launch:2.8.3"
 	mwe2 "org.eclipse.xtext:org.eclipse.xtext.xtext.generator:${versionXtext}"
 
