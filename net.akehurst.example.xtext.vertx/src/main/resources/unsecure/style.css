@@ -15,3 +15,7 @@ body > main > section {
 	
 	border: solid 1px;
 }
+
+#editor .keyword {
+	color: blue;
+}

@@ -1,5 +1,5 @@
 define([], function() {
-	var keywords = "and|false|query|true|with";
+	var keywords = "package|enum|primitive|entity";
 	return {
 		id: "xtext.language",
 		contentTypes: ["xtext/language"],
