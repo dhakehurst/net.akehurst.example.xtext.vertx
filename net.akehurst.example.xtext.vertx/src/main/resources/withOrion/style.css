@@ -18,4 +18,5 @@ body > main > section {
 
 #editor .keyword {
 	color: blue;
+	font-weight: bold;
 }

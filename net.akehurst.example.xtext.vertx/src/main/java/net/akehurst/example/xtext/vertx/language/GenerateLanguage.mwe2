@@ -20,7 +20,10 @@ Workflow {
 					enabled = true
 					name = "net.akehurst.example.xtext.vertx"
 				}
-				
+				web = {
+					enabled = true
+					name = "net.akehurst.example.xtext.vertx"
+				}
 			}
 			code = {
 				encoding = "UTF-8"
@@ -28,8 +31,8 @@ Workflow {
 			}
 		}
 		language = StandardLanguage {
-			name = "net.akehurst.example.xtext.vertx.language.Math"
-			fileExtensions = "math"
+			name = "net.akehurst.example.xtext.vertx.language.Language"
+			fileExtensions = "lang"
 
 			serializer = {
 				generateStub = false

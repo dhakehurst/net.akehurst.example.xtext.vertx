@@ -7,5 +7,5 @@ package net.akehurst.example.xtext.vertx.language.ide
 /**
  * Use this class to register ide components.
  */
-class MathIdeModule extends AbstractMathIdeModule {
+class LanguageIdeModule extends AbstractLanguageIdeModule {
 }
