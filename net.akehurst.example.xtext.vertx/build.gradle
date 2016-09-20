@@ -113,10 +113,10 @@ jar {
 task generateXtextLanguage(type: JavaExec) {
 	main = 'org.eclipse.emf.mwe2.launch.runtime.Mwe2Launcher'
 	classpath = configurations.mwe2
-	inputs.file "src/main/java/net/akehurst/example/xtext/vertx/language/GenerateMath.mwe2"
-	inputs.file "src/main/java/net/akehurst/example/xtext/vertx/language/Math.xtext"
+	inputs.file "src/main/java/net/akehurst/example/xtext/vertx/language/GenerateLanguage.mwe2"
+	inputs.file "src/main/java/net/akehurst/example/xtext/vertx/language/Language.xtext"
 	outputs.dir "src/main/xtext-gen"
-	args += "src/main/java/net/akehurst/example/xtext/vertx/language/GenerateMath.mwe2"
+	args += "src/main/java/net/akehurst/example/xtext/vertx/language/GenerateLanguage.mwe2"
 	args += "-p"
 	args += "rootPath=/${projectDir}/.."
 }

@@ -74,9 +74,9 @@ EnumInstance :
 
 
 EntityInstance:
-	type=[EntityType] '{'
+	type=[EntityType] '('
 		properties+=Property*
-	'}'
+	')'
 ;
 
 Property:
@@ -87,7 +87,7 @@ terminal ML_COMMENT	: '/*' -> '*/';
 terminal SL_COMMENT 	: '//' !('\n'|'\r')* ('\r'? '\n')?;
 terminal WS			: (' '|'\t'|'\r'|'\n')+;
 
-terminal STRING: "'" -> "'" ;
+terminal STRING: '"' -> '"' ;
 terminal INT returns ecore::EInt: ('0'..'9')+;
 terminal ID: ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')* ;
 
