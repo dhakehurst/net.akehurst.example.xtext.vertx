@@ -18,18 +18,13 @@ package net.akehurst.example.xtext.vertx;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import org.eclipse.xtext.web.server.IServiceContext;
-import org.eclipse.xtext.web.server.IServiceResult;
-import org.eclipse.xtext.web.server.IUnwrappableServiceResult;
 import org.eclipse.xtext.web.server.XtextServiceDispatcher;
 
-import com.google.gson.Gson;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpServer;
-import io.vertx.core.http.HttpServerResponse;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.handler.CookieHandler;
@@ -40,11 +35,19 @@ import net.akehurst.example.xtext.vertx.language.web.LanguageWebSetup;
 
 public class Application implements Runnable {
 
+	public Application(final Integer port, final String htmlDirectory) {
+		this.port = null == port ? 8080 : port;
+		this.htmlDirectory = null == htmlDirectory ? "withOrion" : htmlDirectory;
+	}
+
+	int port;
+	String htmlDirectory;
+
 	Vertx vertx;
-	Gson gson = new Gson();
 
 	@Override
 	public void run() {
+
 		final XtextServiceDispatcher xtext = this.createXTextDispatcher();
 		this.startServer(xtext);
 	}
@@ -67,36 +70,12 @@ public class Application implements Runnable {
 		router.route("/xtext-service/*").handler(CookieHandler.create());
 		router.route("/xtext-service/*").handler(BodyHandler.create());
 		router.route("/xtext-service/*").handler(SessionHandler.create(LocalSessionStore.create(this.vertx)));
-		router.route("/xtext-service/*").handler((context) -> {
-			final IServiceContext xCtx = new VertxXTextServiceContext(context);
-			final IServiceResult sr = xtext.getService(xCtx).getService().apply();
-			final HttpServerResponse response = context.response();
-			response.setStatusCode(200);
-			response.putHeader("Cache-Control", "no-cache");
-			final String encoding = "UTF-8";
-			if (sr instanceof IUnwrappableServiceResult && ((IUnwrappableServiceResult) sr).getContent() != null) {
-				final IUnwrappableServiceResult unwrapResult = (IUnwrappableServiceResult) sr;
-				String _elvis = null;
-				final String _contentType = unwrapResult.getContentType();
-				if (_contentType != null) {
-					_elvis = _contentType;
-				} else {
-					_elvis = "text/plain";
-				}
-				response.putHeader("Content-Type", _elvis);
-				final String s = unwrapResult.getContent();
-				response.end(s, encoding);
-			} else {
-				response.putHeader("Content-Type", "text/x-json");
-				final String s = this.gson.toJson(sr);
-				response.end(s, encoding);
-			}
-		});
+		router.route("/xtext-service/*").handler(VertxXTextHandler.create(xtext));
 
-		router.route("/*").handler(StaticHandler.create("unsecure"));
+		router.route("/*").handler(StaticHandler.create(this.htmlDirectory));
 
 		final HttpServer server = this.vertx.createHttpServer();
-		server.requestHandler(router::accept).listen(10101);
+		server.requestHandler(router::accept).listen(this.port);
 
 	}
 }

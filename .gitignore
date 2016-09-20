@@ -6,6 +6,7 @@ target/
 xtext-gen/
 xtend-gen/
 generated/
+orion/
 
 .project
 .classpath

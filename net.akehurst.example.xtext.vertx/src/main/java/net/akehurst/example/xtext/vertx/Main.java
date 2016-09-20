@@ -18,8 +18,17 @@ package net.akehurst.example.xtext.vertx;
 public class Main {
 
 	public static void main(final String[] args) {
-		final Application app = new Application();
+		Integer port = null;
+		String htmlDirtectory = null;
 
+		if (args.length > 0) {
+			port = Integer.parseInt(args[0]);
+		}
+		if (args.length > 1) {
+			htmlDirtectory = args[1];
+		}
+
+		final Application app = new Application(port, htmlDirtectory);
 		app.run();
 
 	}
